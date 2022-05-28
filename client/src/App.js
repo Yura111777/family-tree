@@ -13,6 +13,11 @@ function App() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const closeModal = (val) => {
+        if(val === 'close-modal') {
+            setShow(false)
+        }
+    }
 
       return (
         <div className="App">
@@ -36,7 +41,7 @@ function App() {
                       <Modal.Header closeButton>
                           <Modal.Title>Family Tree</Modal.Title>
                       </Modal.Header>
-                      <FormPerson />
+                      <FormPerson closeModal={closeModal} />
 
                   </Modal>
               </div>

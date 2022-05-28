@@ -3,7 +3,14 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require("../utils/appError");
 
 exports.createKids = catchAsync( async (req, res, next) => {
-    const kids =  await Kids.create(req.body)
+    const photo =  req.file ? req.file.filename : 'default.jpeg';
+    const parents =  req.body.parents ? req.body.parents : null;
+    const kids =  await Kids.create({
+        name: req.body.name,
+        age: req.body.age,
+        photo,
+        parents
+    })
 
     res.status(200).json({
         status: 'success',

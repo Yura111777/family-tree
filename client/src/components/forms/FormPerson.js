@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import {Modal} from "react-bootstrap";
 import {setsData} from "../../fetchData/setsData";
 
@@ -9,34 +8,41 @@ const FormPerson = (props)=> {
 
     const createPerson = (e)=> {
         e.preventDefault()
-        const form1 = {
-            name: document.getElementById('nameParents').value,
-            age: document.getElementById('ageParents').value,
-            photo: document.getElementById('photoParents').files[0],
-        }
-        const form2 = {
-            name: document.getElementById('namePerson').value,
-            age: document.getElementById('agePerson').value,
-            photo: document.getElementById('photoPerson').files[0],
-        }
-        if(form1.name){
-            setsData(form1,'parents', form2,'kids');
-        } else {
+        const parents = document.getElementById('nameParents').value;
+        let form1 = document.getElementById('form1');
+        let formDat1 = new FormData(form1);
 
+        let form2 = document.getElementById('form2');
+        let formDat2 = new FormData(form2);
+
+        if(parents){
+            setsData(formDat1,'parents', formDat2,'kids').then(r => props.closeModal(r))
+        } else {
+            setsData(formDat2,'parents').then(r => props.closeModal(r))
         }
     }
+    const closeModal = ()=> {
+        props.closeModal('close-modal')
+    }
+
     return (
         <div>
-            <form className='form-person' >
+            <form className='form-person'  id='form1' name='form1'>
                 <div className="parents-optional">
                     <span className="optional">Create parens (optional)</span>
-                    <div className="form-group">
-                        <label htmlFor="nameParents">Name parents:</label>
-                        <input name='name' type="text" id='nameParents' className='form-control'/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="ageParents">Age parents:</label>
-                        <input name='age' type="text" id='ageParents' className='form-control'/>
+                    <div className="row">
+                        <div className="col-md-9">
+                            <div className="form-group">
+                                <label htmlFor="nameParents">Name parents:</label>
+                                <input name='name' type="text" id='nameParents' className='form-control'/>
+                            </div>
+                        </div>
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <label htmlFor="ageParents">age:</label>
+                                <input name='age' type="text" id='ageParents' className='form-control'/>
+                            </div>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="photoParents">Photo parents:</label>
@@ -47,32 +53,37 @@ const FormPerson = (props)=> {
                         <select id="existName"  className='form-control'></select>
                     </div>
                 </div>
+            </form>
+            <form id='form2' name='form2'>
                 <div className="person-block">
-                    <div className="form-group">
-                        <label htmlFor="namePerson">Name person:</label>
-                        <input  name='name' type="text" id='namePerson' required className='form-control'/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="agePerson">Age person:</label>
-                        <input name='age' type="text"  required id='agePerson' className='form-control'/>
+                    <div className="row">
+                        <div className="col-md-9">
+                            <div className="form-group">
+                                <label htmlFor="namePerson">Name person:</label>
+                                <input   name='name' type="text" id='namePerson' required className='form-control'/>
+                            </div>
+                        </div>
+                        <div className="col-md-3">
+                            <div className="form-group">
+                                <label htmlFor="agePerson">age:</label>
+                                <input name='age' type="text"  required id='agePerson' className='form-control'/>
+                            </div>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="photoPerson">Photo parents:</label>
                         <input  name='photo' type="file" id='photoPerson' className='form-control'/>
                     </div>
                 </div>
-                <div className="row">
-                    <Modal.Footer>
-                        <button className='btn' >
-                            Close
-                        </button>
-                        <button className='btn' type='submit' onClick={createPerson}>
-                            Save Changes
-                        </button>
-                    </Modal.Footer>
-                </div>
             </form>
-
+            <Modal.Footer>
+                <button className='btn' onClick={closeModal}>
+                    Close
+                </button>
+                <button className='btn' type='submit' onClick={createPerson}>
+                    Save Changes
+                </button>
+            </Modal.Footer>
         </div>
 
     )
