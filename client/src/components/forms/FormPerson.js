@@ -1,13 +1,23 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Modal} from "react-bootstrap";
 import {setsData} from "../../fetchData/setsData";
+import {connect, useDispatch} from "react-redux";
+import {createAllPK} from "../../reducers/actions";
 
 
 const FormPerson = (props)=> {
 
-
-    const createPerson = (e)=> {
-        e.preventDefault()
+    const dispatch = useDispatch()
+    const allData = [...props.all.kids, ...props.all.parents]
+    // console.log(allData)
+    const option = ()=> {
+        return  allData.length ? allData.map(el => {
+                return (
+                    <option key={el._id} value={el._id}>{el.name}</option>
+                )
+            }) : false
+    }
+    const createPerson = ()=> {
         const parents = document.getElementById('nameParents').value;
         let form1 = document.getElementById('form1');
         let formDat1 = new FormData(form1);
@@ -16,9 +26,15 @@ const FormPerson = (props)=> {
         let formDat2 = new FormData(form2);
 
         if(parents){
-            setsData(formDat1,'parents', formDat2,'kids').then(r => props.closeModal(r))
+            setsData(formDat1,'parents', formDat2,'kids').then(r => {
+                props.closeModal(r.command)
+                dispatch(createAllPK(r.dataDB))
+            })
         } else {
-            setsData(formDat2,'parents').then(r => props.closeModal(r))
+            setsData(formDat2,'parents').then(r => {
+                props.closeModal(r.command)
+                dispatch(createAllPK(r.dataDB))
+            })
         }
     }
     const closeModal = ()=> {
@@ -48,10 +64,16 @@ const FormPerson = (props)=> {
                         <label htmlFor="photoParents">Photo parents:</label>
                         <input name='photo' type="file" id='photoParents' className='form-control'/>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="existName">Or Choose from existing:</label>
-                        <select id="existName"  className='form-control'></select>
-                    </div>
+                    {option() ?
+                        <div className="form-group">
+                            <label htmlFor="existName">Or Choose from existing:</label>
+                            <select id="existName"  className='form-control'>
+                                <option>Select parents</option>
+                                {option()}
+                            </select>
+                        </div> : ''
+                    }
+
                 </div>
             </form>
             <form id='form2' name='form2'>
@@ -88,5 +110,10 @@ const FormPerson = (props)=> {
 
     )
 }
+const mapStateToProps = state => {
+    return {
+        all: state
+    }
+}
 
-export default FormPerson;
+export default connect(mapStateToProps, null)(FormPerson) ;
