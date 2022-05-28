@@ -12,9 +12,20 @@ const parentsSchema = mongoose.Schema({
     photo: {
         type: String,
         default: 'default.jpeg'
-    }
+    },
+    kids:  {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Kids'
+    },
 })
+parentsSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'kids',
+        select: 'name'
+    });
 
+    next();
+});
 const Parents = mongoose.model('Parents', parentsSchema);
 
 module.exports = Parents;

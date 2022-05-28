@@ -3,17 +3,25 @@ import bgVideo2 from './assets/video/video.ogv'
 import bgVideo3 from './assets/video/video.webm'
 import './App.css';
 import './assets/scss/style.scss'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Modal} from "react-bootstrap";
 import FormPerson from "./components/forms/FormPerson";
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
+import TreeList from "./components/list/treeList";
+import {asyncFetchAll, fetchAll} from "./reducers/actions";
+
 
 
 function App(props) {
     const [show, setShow] = useState(false);
-    const parents = props.all.parents
-    const kids = props.all.kids
+    const parents = useSelector( state => state.parents)
+    const kids = useSelector( state => state.kids)
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(asyncFetchAll())
+        console.log(parents, '---------------------------------')
+    }, [dispatch])
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const closeModal = (val) => {
@@ -37,6 +45,10 @@ function App(props) {
                                 <button className="btn add-person" onClick={handleShow}>
                                     <ion-icon name="person-add-outline"></ion-icon>
                                 </button>
+                            </div>
+                            <div className="col-12">
+                                <TreeList data={parents}/>
+                                <TreeList data={kids}/>
                             </div>
                         </div>
                     </div>

@@ -18,7 +18,14 @@ const kidsSchema = mongoose.Schema({
         default: 'default.jpeg'
     }
 })
+kidsSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'parents',
+        select: 'name'
+    });
 
+    next();
+});
 const Kids = mongoose.model('Kids', kidsSchema);
 
 module.exports = Kids;

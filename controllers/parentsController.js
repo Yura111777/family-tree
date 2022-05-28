@@ -2,6 +2,17 @@ const Parents = require('./../models/parentsModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require("../utils/appError");
 
+exports.getParents = catchAsync( async (req, res, next) => {
+    const parents =  await Parents.find()
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            parents
+        }
+    })
+})
+
 exports.createParents = catchAsync( async (req, res, next) => {
     const photo =  req.file ? req.file.filename : 'default.jpeg';
     const parents =  await Parents.create({

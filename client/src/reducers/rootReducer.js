@@ -16,8 +16,8 @@ const rootReducer = (state = initialState, action) => {
         case FETCH_ALL:
             return {
                 ...state,
-                parents: action.payload.parents,
-                kids: action.payload.kids,
+                parents: action.payload.parents.parents,
+                kids: action.payload.kids.kids,
             }
         case CREATE_PARENTS:
             return {

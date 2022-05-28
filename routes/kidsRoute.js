@@ -9,6 +9,7 @@ router.route('/').post(
     uploadPhotoController.resizeUserPhoto,
     kidsController.createKids
 )
+    .get(kidsController.getKids)
 
 router.route('/:id').patch(
     uploadPhotoController.uploadUserPhoto,

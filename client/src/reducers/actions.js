@@ -1,5 +1,5 @@
 import {
-    ASYNC_CREATE_ALL,
+    ASYNC_CREATE_ALL, ASYNC_FETCH_ALL,
     CREATE_ALL, CREATE_PARENTS, EDIT_KIDS, EDIT_PARENTS, FETCH_ALL
 
 } from "./types";
@@ -22,7 +22,7 @@ export  const createParents = (parents) => {
 
 
 
-export  const fetchAll = (all) => {
+export  const fetchAll = all => {
     return {
         type: FETCH_ALL,
         payload: all
@@ -42,5 +42,12 @@ export  const editKids = (kid) => {
     return {
         type: EDIT_KIDS,
         payload: kid
+    }
+}
+
+export  const asyncFetchAll = payload => {
+    return {
+        type: ASYNC_FETCH_ALL,
+        payload
     }
 }

@@ -10,6 +10,7 @@ router.route('/')
         uploadPhotoController.resizeUserPhoto,
         parentsController.createParents
     )
+    .get(parentsController.getParents)
 
 
 router.route('/:id').patch(parentsController.updateParents)
