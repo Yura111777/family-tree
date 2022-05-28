@@ -15,12 +15,11 @@ import {asyncFetchAll, fetchAll} from "./reducers/actions";
 function App(props) {
     const [show, setShow] = useState(false);
     const parents = useSelector( state => state.parents)
-    const kids = useSelector( state => state.kids)
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
+    console.log(parents)
     useEffect(() => {
         dispatch(asyncFetchAll())
-        console.log(parents, '---------------------------------')
     }, [dispatch])
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -41,14 +40,13 @@ function App(props) {
               <div className="dark-bg">
                     <div className="container">
                         <div className="row justify-content-end">
-                            <div className="col-auto">
+                            <div className="col-auto mb-3">
                                 <button className="btn add-person" onClick={handleShow}>
                                     <ion-icon name="person-add-outline"></ion-icon>
                                 </button>
                             </div>
                             <div className="col-12">
-                                <TreeList data={parents}/>
-                                <TreeList data={kids}/>
+                                <TreeList  data={parents}/>
                             </div>
                         </div>
                     </div>

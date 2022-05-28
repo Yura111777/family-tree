@@ -5,4 +5,5 @@ export const EDIT_PARENTS = 'EDIT_PARENTS';
 export const EDIT_KIDS = 'EDIT_KIDS';
 export const FETCH_ALL = 'FETCH_ALL';
 export const ASYNC_FETCH_ALL = 'ASYNC_FETCH_ALL';
+export const ASYNC_EDIT_PARENTS = 'ASYNC_EDIT_PARENTS';
 

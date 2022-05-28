@@ -15,11 +15,15 @@ exports.getParents = catchAsync( async (req, res, next) => {
 
 exports.createParents = catchAsync( async (req, res, next) => {
     const photo =  req.file ? req.file.filename : 'default.jpeg';
-    const parents =  await Parents.create({
+    const kids =  req.body.kids;
+    const parent =  await Parents.create({
         name: req.body.name,
         age: req.body.age,
         photo,
+        kids
     })
+
+    const parents = await Parents.findById(parent._id)
 
     res.status(200).json({
         status: 'success',

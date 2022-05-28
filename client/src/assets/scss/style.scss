@@ -52,11 +52,25 @@
 }
 .list{
   list-style: none;
+  padding: 0;
+
+  .family{
+    background: rgb(255 255 244 / 4%);
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 10px 5px 10px rgb(0 0 0 / 21%);
+    transition: opacity 1s ease-out;
+
+  }
   li{
     text-align: left;
     font-size: 16px;
     padding: 15px;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid rgb(211 211 211 / 28%);
+    opacity: 0;
+    &.active{
+      opacity: 1;
+    }
     img{
       width: 40px;
       border-radius: 100%;

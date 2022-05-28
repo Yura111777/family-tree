@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Modal} from "react-bootstrap";
 import {setsData} from "../../fetchData/setsData";
-import {connect, useDispatch} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {createAllPK} from "../../reducers/actions";
 
 
 const FormPerson = (props)=> {
 
     const dispatch = useDispatch()
-    const allData = [...props.all.kids, ...props.all.parents]
+    const parents = useSelector( state => state.parents)
+    const allData = [...parents]
     const [selectData, setSelectData] = useState(true)
 
     // console.log(allData)
@@ -35,7 +36,7 @@ const FormPerson = (props)=> {
         let formDat2 = new FormData(form2);
 
         if(parents || selectData === false){
-            setsData(formDat1,'parents', formDat2,'kids', selectData ? '' : selectParents()).then(r => {
+            setsData(formDat2,'kids', formDat1,'parents', selectData ? '' : selectParents()).then(r => {
                 props.closeModal(r.command)
                 dispatch(createAllPK(r.dataDB))
             })
@@ -123,10 +124,6 @@ const FormPerson = (props)=> {
 
     )
 }
-const mapStateToProps = state => {
-    return {
-        all: state
-    }
-}
 
-export default connect(mapStateToProps, null)(FormPerson) ;
+
+export default FormPerson ;

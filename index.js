@@ -7,6 +7,7 @@ const parentsRoute = require('./routes/parentsRoute')
 const kidsRoute = require('./routes/kidsRoute')
 
 const app = express();
+app.use('/images', express.static(path.join(__dirname, 'public/img')));
 
 app.use(cors())
 app.use(
