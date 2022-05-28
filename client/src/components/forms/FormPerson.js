@@ -9,6 +9,8 @@ const FormPerson = (props)=> {
 
     const dispatch = useDispatch()
     const allData = [...props.all.kids, ...props.all.parents]
+    const [selectData, setSelectData] = useState(true)
+
     // console.log(allData)
     const option = ()=> {
         return  allData.length ? allData.map(el => {
@@ -16,6 +18,13 @@ const FormPerson = (props)=> {
                     <option key={el._id} value={el._id}>{el.name}</option>
                 )
             }) : false
+    }
+    const selectParents = () => {
+        const select =  document.getElementById('existName')
+        const selected = select.options[select.selectedIndex].value;
+        const valSelect = selected === 'Select parents' ? {status:false, id:  null} :{status:true, id: selected };
+        selected === 'Select parents' ? setSelectData(true) : setSelectData(false)
+        return  valSelect;
     }
     const createPerson = ()=> {
         const parents = document.getElementById('nameParents').value;
@@ -25,8 +34,8 @@ const FormPerson = (props)=> {
         let form2 = document.getElementById('form2');
         let formDat2 = new FormData(form2);
 
-        if(parents){
-            setsData(formDat1,'parents', formDat2,'kids').then(r => {
+        if(parents || selectData === false){
+            setsData(formDat1,'parents', formDat2,'kids', selectData ? '' : selectParents()).then(r => {
                 props.closeModal(r.command)
                 dispatch(createAllPK(r.dataDB))
             })
@@ -37,6 +46,7 @@ const FormPerson = (props)=> {
             })
         }
     }
+
     const closeModal = ()=> {
         props.closeModal('close-modal')
     }
@@ -46,29 +56,32 @@ const FormPerson = (props)=> {
             <form className='form-person'  id='form1' name='form1'>
                 <div className="parents-optional">
                     <span className="optional">Create parens (optional)</span>
-                    <div className="row">
-                        <div className="col-md-9">
-                            <div className="form-group">
-                                <label htmlFor="nameParents">Name parents:</label>
-                                <input name='name' type="text" id='nameParents' className='form-control'/>
+                    <div className='position-relative'>
+                        <div className={selectData ?  'overlay-folder d-none' : 'overlay-folder d-block'}/>
+                        <div className="row">
+                            <div className="col-md-9">
+                                <div className="form-group">
+                                    <label htmlFor="nameParents">Name parents:</label>
+                                    <input name='name' type="text" id='nameParents' className='form-control'/>
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="form-group">
+                                    <label htmlFor="ageParents">age:</label>
+                                    <input name='age' type="text" id='ageParents' className='form-control'/>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-md-3">
-                            <div className="form-group">
-                                <label htmlFor="ageParents">age:</label>
-                                <input name='age' type="text" id='ageParents' className='form-control'/>
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="photoParents">Photo parents:</label>
+                            <input name='photo' type="file" id='photoParents' className='form-control'/>
                         </div>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="photoParents">Photo parents:</label>
-                        <input name='photo' type="file" id='photoParents' className='form-control'/>
                     </div>
                     {option() ?
                         <div className="form-group">
                             <label htmlFor="existName">Or Choose from existing:</label>
-                            <select id="existName"  className='form-control'>
-                                <option>Select parents</option>
+                            <select id="existName"  className='form-control' onChange={selectParents}>
+                                <option value='Select parents'>Select parents</option>
                                 {option()}
                             </select>
                         </div> : ''

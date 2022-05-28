@@ -1,19 +1,24 @@
 import axios from 'axios';
 
 
-export const setsData = async (data, type, data2= null, type2 = null) => {
+export const setsData = async (data, type, data2= null, type2 = null, select = {status:false, id:null}) => {
     try {
+        console.log(select)
         const url = `http://127.0.0.1:8080/api/v1/${type}`;
-        const res = await axios({
-            method: 'POST',
-            url,
-            data
-        });
+        let res;
+        if(!select.status) {
+            res = await axios({
+                method: 'POST',
+                url,
+                data
+            });
+        }
         let res2;
-        if (res.data.status === 'success') {
+        if (res?.data.status === 'success' || select.status) {
             if(type2 === 'kids'){
+
                 const data = new FormData();
-                data.append( 'parents', res.data.data.parents._id)
+                select.status ?  data.append( 'parents', select.id) :  data.append( 'parents', res.data.data.parents._id)
                 for(let [key,val] of data2.entries()){
                     data.append( key, val)
                 }
@@ -32,6 +37,6 @@ export const setsData = async (data, type, data2= null, type2 = null) => {
             command: 'close-modal'
         }
     } catch (err) {
-        console.log('error', err.response.data.message);
+        console.log('error', err);
     }
 };

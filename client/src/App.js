@@ -6,10 +6,13 @@ import './assets/scss/style.scss'
 import React, {useState} from "react";
 import {Modal} from "react-bootstrap";
 import FormPerson from "./components/forms/FormPerson";
+import {connect} from "react-redux";
 
 
-function App() {
+function App(props) {
     const [show, setShow] = useState(false);
+    const parents = props.all.parents
+    const kids = props.all.kids
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -49,5 +52,9 @@ function App() {
         </div>
       );
 }
-
-export default App;
+const mapStateToProps = state => {
+    return {
+        all: state
+    }
+}
+export default connect(mapStateToProps, null)(App);
