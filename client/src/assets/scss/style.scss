@@ -22,6 +22,9 @@
 }
 .form-group{
   margin-bottom: 15px;
+  .not-valid{
+    border-color: red;
+  }
   label{
     margin-bottom: 10px;
   }
@@ -79,5 +82,18 @@
     .name{
       opacity: .5;
     }
+  }
+}
+@media(max-width: 400px){
+  .list {
+    li{
+      padding: 0;
+    }
+  }
+  .person-block{
+    margin: 0;
+  }
+  .parents-optional{
+    margin: 0;
   }
 }

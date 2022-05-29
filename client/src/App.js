@@ -46,7 +46,11 @@ function App(props) {
                                 </button>
                             </div>
                             <div className="col-12">
-                                <TreeList  data={parents}/>
+                                <div className="row justify-content-center">
+                                    <div className="col-xl-8">
+                                        <TreeList  data={parents}/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

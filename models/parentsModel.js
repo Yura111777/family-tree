@@ -9,23 +9,22 @@ const parentsSchema = mongoose.Schema({
         type: Number,
         required: [true, 'This field can\'t be blank']
     },
-    kids: {
-        type: [mongoose.Schema.ObjectId],
-        ref: 'Kids',
-        required: [true, 'Kid must have parents']
-    },
     photo: {
         type: String,
         default: 'default.jpeg'
     }
-})
-parentsSchema.pre(/^find/, function(next) {
-    this.populate({
-        path: 'kids',
-    });
+},
+    {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+    })
 
-    next();
-});
+parentsSchema.virtual('kids', {
+    ref: 'Kids',
+    foreignField: 'parents',
+    localField: '_id'
+})
+
 const Parents = mongoose.model('Parents', parentsSchema);
 
 module.exports = Parents;

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Modal} from "react-bootstrap";
 import {setsData} from "../../fetchData/setsData";
 import {connect, useDispatch, useSelector} from "react-redux";
-import {createAllPK} from "../../reducers/actions";
+import {asyncFetchAll, createAllPK} from "../../reducers/actions";
 
 
 const FormPerson = (props)=> {
@@ -11,14 +11,14 @@ const FormPerson = (props)=> {
     const parents = useSelector( state => state.parents)
     const allData = [...parents]
     const [selectData, setSelectData] = useState(true)
-
+    const[notValid, setInvalid] = useState(false)
     // console.log(allData)
     const option = ()=> {
         return  allData.length ? allData.map(el => {
-                return (
-                    <option key={el._id} value={el._id}>{el.name}</option>
-                )
-            }) : false
+            return (
+                <option key={el._id} value={el._id}>{el.name}</option>
+            )
+        }) : false
     }
     const selectParents = () => {
         const select =  document.getElementById('existName')
@@ -29,21 +29,24 @@ const FormPerson = (props)=> {
     }
     const createPerson = ()=> {
         const parents = document.getElementById('nameParents').value;
+        const kid = document.getElementById('namePerson').value;
         let form1 = document.getElementById('form1');
         let formDat1 = new FormData(form1);
 
         let form2 = document.getElementById('form2');
         let formDat2 = new FormData(form2);
 
-        if(parents || selectData === false){
-            setsData(formDat2,'kids', formDat1,'parents', selectData ? '' : selectParents()).then(r => {
+        if(parents && kid || selectData === false && kid){
+            setsData(formDat1,'parents', formDat2,'kids', selectData ? '' : selectParents()).then(r => {
                 props.closeModal(r.command)
-                dispatch(createAllPK(r.dataDB))
+                dispatch(asyncFetchAll())
             })
         } else {
             setsData(formDat2,'parents').then(r => {
                 props.closeModal(r.command)
-                dispatch(createAllPK(r.dataDB))
+                dispatch(asyncFetchAll())
+            }).catch(e => {
+                setInvalid(true)
             })
         }
     }
@@ -96,13 +99,13 @@ const FormPerson = (props)=> {
                         <div className="col-md-9">
                             <div className="form-group">
                                 <label htmlFor="namePerson">Name person:</label>
-                                <input   name='name' type="text" id='namePerson' required className='form-control'/>
+                                <input   name='name' type="text" id='namePerson' required  className={notValid ? 'form-control not-valid': 'form-control'}/>
                             </div>
                         </div>
                         <div className="col-md-3">
                             <div className="form-group">
                                 <label htmlFor="agePerson">age:</label>
-                                <input name='age' type="text"  required id='agePerson' className='form-control'/>
+                                <input name='age' type="text"  required id='agePerson' className={notValid ? 'form-control not-valid': 'form-control'} />
                             </div>
                         </div>
                     </div>

@@ -9,12 +9,23 @@ const kidsSchema = mongoose.Schema({
         type: Number,
         required: [true, 'This age field can\'t be blank']
     },
-
+    parents: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Parents',
+        required: [true, 'Kid must have parents']
+    },
     photo: {
         type: String,
         default: 'default.jpeg'
     }
 })
+kidsSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'parents',
+    });
+
+    next();
+});
 
 const Kids = mongoose.model('Kids', kidsSchema);
 
