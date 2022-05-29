@@ -14,10 +14,11 @@ const TreeList = (props)=> {
     const handleShow = (el, type) => {
         setShow(true);
         setTimeout(() => {
-            document.getElementById('namePerson').placeholder = el.name
-            document.getElementById('agePerson').placeholder = el.age
+            document.getElementById('namePerson').defaultValue = el.name
+            document.getElementById('agePerson').defaultValue = el.age
             document.querySelector('.submit-button').dataset.id = el._id
             document.querySelector('.submit-button').dataset.type = type
+            document.querySelector('#photoPerson').dataset.photo = el.photo
         }, 100)
 
     }
@@ -33,10 +34,20 @@ const TreeList = (props)=> {
         const type = e.target.dataset.type
         const form = document.getElementById('form')
         const data = new FormData(form)
-
+        const val1 = document.getElementById('namePerson').value
+        const val2 = document.getElementById('agePerson').value
+        const val3 = document.getElementById('photoPerson')
+        if(!val1){
+            data.delete('name')
+        }
+        if(!val2){
+            data.delete('age')
+        }
+        if(val3.files[0] === undefined){
+            data.append('photo', val3.dataset.photo )
+        }
         saga(id, data, type)
         dispatch(asyncUpdateAll())
-        dispatch(asyncFetchAll())
         handleClose()
     }
     const closeModal = () => handleClose()
@@ -47,7 +58,7 @@ const TreeList = (props)=> {
             {props.data.length ?
                 props.data.map(el => {
                     return <li  key={el._id} className={ activeClass ? 'family active' : 'family'}>
-                        <div className='d-flex flex-column flex-md-row align-items-center pt-md-0 pt-2'  onClick={() => handleShow(el, 'parents')}>
+                        <div className='d-flex flex-column flex-md-row align-items-center pt-md-0 pt-2' title={`Update parents ${el.name}`}  onClick={() => handleShow(el, 'parents')}>
                             <div className="d-flex align-items-center">
                                 <img src={`http://127.0.0.1:8080/images/${el.photo}`} alt=""/>
                                 <span className="name">{el.name}</span>
@@ -57,7 +68,7 @@ const TreeList = (props)=> {
                                 <ul className='list px-xl-5 py-3'>
                                     {el.kids.length ? el.kids.map( kid => {
                                             return(
-                                                <li key={kid._id}  className={ activeClass ? 'active' : ''} onClick={() => handleShow(kid, 'kids')}>
+                                                <li key={kid._id}  className={ activeClass ? 'active' : ''} title={`Update kid ${kid.name}`} onClick={() => handleShow(kid, 'kids')}>
                                                     <div className='d-flex justify-content-between flex-column flex-md-row align-items-center py-md-0 py-2'>
                                                         <div className="d-flex align-items-center">
                                                             <img src={`http://127.0.0.1:8080/images/${kid.photo}`} alt=""/>
@@ -98,7 +109,7 @@ const TreeList = (props)=> {
                         </div>
                         <div className="form-group">
                             <label htmlFor="photoPerson">Photo parents:</label>
-                            <input  name='photo' type="file" id='photoPerson' className='form-control'/>
+                            <input  name='photo' type="file" data-foto='' id='photoPerson' className='form-control'/>
                         </div>
                     </div>
                 </form>

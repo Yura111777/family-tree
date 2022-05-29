@@ -3,7 +3,6 @@ import axios from 'axios';
 
 export const setsData = async (data, type, data2= null, type2 = null, select = {status:false, id:null}) => {
     try {
-        console.log(select)
         const url = `http://127.0.0.1:8080/api/v1/${type}`;
         let res;
         if(!select.status) {

@@ -46,7 +46,12 @@ exports.updateKids = catchAsync( async (req, res, next) => {
             )
         );
     }
-    const kids =  await Kids.findByIdAndUpdate(req.params.id, req.body, {
+    const photo =   req.file?.filename || req.body.photo;
+    const kids =  await Kids.findByIdAndUpdate(req.params.id, {
+        name: req.body.name,
+        age: req.body.age,
+        photo,
+    }, {
         new: true,
     })
 

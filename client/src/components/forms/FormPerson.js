@@ -12,7 +12,7 @@ const FormPerson = (props)=> {
     const allData = [...parents]
     const [selectData, setSelectData] = useState(true)
     const[notValid, setInvalid] = useState(false)
-    // console.log(allData)
+
     const option = ()=> {
         return  allData.length ? allData.map(el => {
             return (

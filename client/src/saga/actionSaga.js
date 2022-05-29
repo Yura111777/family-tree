@@ -26,17 +26,12 @@ function* createAll() {
     yield delay(1000)
     yield put(createAllPK())
 }
-function* createParents() {
 
-}
 function* updateParentsKids() {
   const data2 =  yield call(updateAPi)
-    console.log(data2)
     yield put(updateAll(data2.data.data))
 }
-function* editKids() {
 
-}
 function* fetchAllData() {
     const data = yield call(fetchAPiParents)
     const data1 = yield call(fetchAPiKids)

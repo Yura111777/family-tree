@@ -13,5 +13,9 @@ router.route('/')
     .get(parentsController.getParents)
 
 
-router.route('/:id').patch(parentsController.updateParents)
+router.route('/:id').patch(
+    uploadPhotoController.uploadUserPhoto,
+    uploadPhotoController.resizeUserPhoto,
+    parentsController.updateParents
+)
 module.exports = router;

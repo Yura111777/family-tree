@@ -17,7 +17,6 @@ function App(props) {
     const parents = useSelector( state => state.parents)
 
     const dispatch = useDispatch();
-    console.log(parents)
     useEffect(() => {
         dispatch(asyncFetchAll())
     }, [dispatch])

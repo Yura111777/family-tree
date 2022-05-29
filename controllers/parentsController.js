@@ -41,7 +41,12 @@ exports.updateParents = catchAsync( async (req, res, next) => {
             )
         );
     }
-    const parents =  await Parents.findByIdAndUpdate(req.params.id, req.body, {
+    const photo =   req.file?.filename || req.body.photo;
+    const parents =  await Parents.findByIdAndUpdate(req.params.id, {
+        name: req.body.name,
+        age: req.body.age,
+        photo,
+    }, {
         new: true,
     }).populate({path: 'kids'})
 
