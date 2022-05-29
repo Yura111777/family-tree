@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 .video-bg{
   height: 100vh;
   object-fit: cover;
@@ -15,7 +16,10 @@
 }
 .add-person{
     color: aliceblue;
-    font-size: 24px
+    font-size: 24px;
+    ion-icon{
+      margin-left: 15px;
+      }
 }
 .form-person{
   padding: 15px;
@@ -84,6 +88,12 @@
     }
   }
 }
+.h1{
+  font-size: 76px;
+  color: aliceblue;
+  font-family: 'Great Vibes', cursive;
+  margin-bottom: 30px;
+}
 @media(max-width: 400px){
   .list {
     li{
@@ -95,5 +105,8 @@
   }
   .parents-optional{
     margin: 0;
+  }
+  .h1{
+    font-size: 40px;
   }
 }

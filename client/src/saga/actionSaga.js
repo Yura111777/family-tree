@@ -1,6 +1,6 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {asyncEditParents, createAllPK, fetchAll, updateAll} from "../reducers/actions";
-import {ASYNC_CREATE_ALL, ASYNC_EDIT_PARENTS, ASYNC_FETCH_ALL, ASYNC_UPDATE_ALL} from "../reducers/types";
+import {createAllPK, fetchAll, updateAll} from "../reducers/actions";
+import {ASYNC_CREATE_ALL, ASYNC_FETCH_ALL, ASYNC_UPDATE_ALL} from "../reducers/types";
 import axios from "axios";
 import {call} from "@redux-saga/core/effects";
 

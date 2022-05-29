@@ -48,6 +48,9 @@ const TreeList = (props)=> {
         }
         saga(id, data, type)
         dispatch(asyncUpdateAll())
+        if(type === 'kids'){
+            dispatch(asyncFetchAll())
+        }
         handleClose()
     }
     const closeModal = () => handleClose()

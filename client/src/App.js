@@ -38,11 +38,17 @@ function App(props) {
               </video>
               <div className="dark-bg">
                     <div className="container">
-                        <div className="row justify-content-end">
+                        <div className="row justify-content-md-end justify-content-center">
                             <div className="col-auto mb-3">
-                                <button className="btn add-person" onClick={handleShow}>
+                                <button className="btn add-person align-items-center d-flex" onClick={handleShow}>
+                                    Add person
                                     <ion-icon name="person-add-outline"></ion-icon>
                                 </button>
+                            </div>
+                            <div className="col-12">
+                                <h1 className='h1 text-center'>
+                                    Family Tree
+                                </h1>
                             </div>
                             <div className="col-12">
                                 <div className="row justify-content-center">
